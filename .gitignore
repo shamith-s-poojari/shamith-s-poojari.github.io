@@ -1,0 +1,10 @@
+# Local tooling, not part of the site
+.claude/
+
+# Superseded first version of the portfolio, kept locally only
+shamith-portfolio.backup.html
+
+# OS cruft
+Thumbs.db
+desktop.ini
+.DS_Store
