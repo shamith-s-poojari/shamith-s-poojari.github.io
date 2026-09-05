@@ -282,6 +282,15 @@ h2 .of{color:var(--muted); font-weight:400;}
 }
 .entry-body p{color:var(--muted); max-width:68ch;}
 .stack{display:flex; flex-wrap:wrap; gap:7px; align-content:start;}
+.entry-links{display:flex; flex-wrap:wrap; gap:10px; margin-top:18px;}
+.entry-links a{
+  display:inline-flex; align-items:center; gap:7px;
+  font-size:0.875rem; font-weight:500; color:var(--text);
+  border:1px solid var(--line); border-radius:var(--r-sm); padding:7px 14px;
+  transition:border-color .2s ease, background-color .2s ease, transform .22s cubic-bezier(.16,1,.3,1);
+}
+.entry-links a:hover{border-color:var(--accent); background:var(--accent-quiet); transform:translateY(-2px);}
+.entry-links svg{width:13px; height:13px; flex:none;}
 .stack li{
   font-size:0.8125rem; color:var(--muted);
   border:1px solid var(--line-soft);
@@ -553,6 +562,38 @@ dialog.resume::backdrop{background:rgba(6,6,7,0.8);}
 
   <section id="work" class="shell">
     <h2>Selected work</h2>
+
+    <hr class="rule">
+    <article class="entry">
+      <div class="entry-head">
+        <h3 class="entry-title" data-reveal>Merkle Seal</h3>
+        <span class="entry-kind" data-reveal>Sep 2026</span>
+      </div>
+      <div class="entry-body">
+        <p data-reveal>
+          Seals a set of files under one Merkle root, then tells you which specific file changed
+          rather than only that something did. Leaves and internal nodes are hashed with different
+          prefixes, without which a crafted file could pose as an internal node. Odd nodes are
+          promoted instead of duplicated, avoiding the flaw that let two different file sets share
+          a root in early Bitcoin. Each file carries an inclusion proof, so verifying one file
+          costs a handful of hashes instead of rehashing the set. It runs entirely in the browser,
+          so nothing is uploaded.
+        </p>
+        <ul class="stack" data-reveal>
+          <li>Web Crypto</li><li>SHA-256</li><li>Merkle trees</li><li>JavaScript</li><li>No dependencies</li>
+        </ul>
+        <div class="entry-links" data-reveal>
+          <a href="https://shamith-s-poojari.github.io/merkle-seal/" target="_blank" rel="noopener">
+            Try it
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          </a>
+          <a href="https://github.com/shamith-s-poojari/merkle-seal" target="_blank" rel="noopener">
+            Source
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          </a>
+        </div>
+      </div>
+    </article>
 
     <hr class="rule">
     <article class="entry">
