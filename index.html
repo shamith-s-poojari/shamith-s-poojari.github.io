@@ -146,8 +146,12 @@ a{color:inherit; text-decoration:none; text-underline-offset:0.22em; text-decora
 }
 .nav-mail:hover{border-color:var(--accent); background:var(--accent-quiet);}
 @media (max-width:720px){
+  /* Wordmark plus Menu only. Resume lives inside the menu, so keeping the nav
+     button too both duplicated it and pushed the row past the viewport. */
   .nav-links{display:none;}
-  .nav-mail{margin-left:auto;}
+  .nav-mail{display:none;}
+  .nav-in{gap:16px;}
+  .menu-btn{margin-left:auto;}
 }
 
 /* ---------- hero ---------- */
