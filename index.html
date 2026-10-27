@@ -508,10 +508,13 @@ section.journey.rolling{padding-block:0; height:calc(var(--stops, 7) * 70vh + 10
 .scene .tag{
   position:absolute; left:0; top:0; z-index:1; pointer-events:none;
   translate:-50% -100%;
-  font-size:0.8125rem; font-weight:600; color:var(--ink);
-  background:var(--accent); padding:4px 11px; border-radius:99px; white-space:nowrap;
+  display:flex; flex-direction:column; align-items:center; gap:1px;
+  width:max-content; max-width:min(250px, 72%); text-align:center;
+  color:var(--ink); background:var(--accent); padding:6px 13px 7px; border-radius:12px;
   opacity:0; transition:opacity .3s ease;
 }
+.scene .tag small{font-size:0.6875rem; font-weight:500; line-height:1.2; opacity:.82;}
+.scene .tag b{font-size:0.8125rem; font-weight:600; line-height:1.25; letter-spacing:-0.005em;}
 
 .ride-card{
   display:flex; align-items:flex-end; justify-content:space-between; gap:24px;
@@ -907,45 +910,45 @@ dialog.resume::backdrop{background:rgba(6,6,7,0.8);}
       <p class="journey-lede">Go through my journey, one stop at a time. Keep scrolling to ride along.</p>
     </div>
     <ol class="stops">
-      <li data-icon="school" data-tag="School">
+      <li data-icon="school" data-tag="School" data-name="Rotary Central School">
         <div class="when">School, Class X, 2021</div>
         <div><h3>Rotary Central School</h3><p>Where it started. Finished Class X with 76.4%.</p></div>
       </li>
-      <li data-icon="book" data-tag="PU College">
+      <li data-icon="book" data-tag="PU College" data-name="Rotary PU College">
         <div class="when">PU College, PCMC, 2021 to 2023</div>
         <div><h3>Rotary PU College</h3><p>Senior secondary in Physics, Chemistry, Mathematics and Computer Science, finishing Class XII with 89.83%.</p></div>
       </li>
-      <li data-icon="campus" data-tag="B.E. in CSIoT">
+      <li data-icon="campus" data-tag="B.E. in CSIoT" data-name="Mangalore Institute of Technology and Engineering">
         <div class="when">B.E. in CSIoT, 2023 to 2027</div>
         <div><h3>Mangalore Institute of Technology and Engineering</h3><p>Where I am now: Computer Science and Engineering with a specialization in IoT, cybersecurity, and blockchain, in my final year.</p></div>
       </li>
-      <li data-icon="badge" data-tag="Certifications">
+      <li data-icon="badge" data-tag="Certifications" data-name="NPTEL, UiPath and workshops">
         <div class="when">Certifications, 2025 to 2026</div>
         <div><h3>Certifications and workshops</h3><p>NPTEL courses in Real-Time Operating Systems and in Internet Crimes and Cyber Security, the UiPath RPA Developer Foundation, and workshops in IoT prototyping and ethical hacking.</p></div>
       </li>
-      <li data-icon="office" data-tag="Internship">
+      <li data-icon="office" data-tag="Internship" data-name="Ankyah Nexus">
         <div class="when">Software Development Intern, Jan to Apr 2026</div>
         <div><h3>Internship at Ankyah Nexus</h3><p>Joined the product team as a software development intern and shipped 8 features across 6 two-week sprints, every change through pull-request review.</p></div>
       </li>
-      <li data-icon="screen" data-tag="Internship project">
+      <li data-icon="screen" data-tag="Internship project" data-name="Onboarding Management System">
         <div class="when">Internship project, Apr 2026</div>
-        <div><h3>Onboarding platform shipped</h3><p>Took a three hour onboarding process per cohort down to under 45 minutes, across more than 120 candidate records.</p></div>
+        <div><h3>Onboarding Management System</h3><p>Took a three hour onboarding process per cohort down to under 45 minutes, across more than 120 candidate records.</p></div>
       </li>
-      <li data-icon="chain" data-tag="Final year project">
+      <li data-icon="chain" data-tag="Final year project" data-name="Chain of Custody">
         <div class="when">Final year project, Apr 2026 to now</div>
-        <div><h3>Chain of Custody</h3><p>My final year project: a tamper-evident evidence locker on Ethereum and IPFS, with every custody transfer on an append-only audit trail.</p></div>
+        <div><h3>Chain of Custody: Digital Forensic Locker</h3><p>My final year project: a tamper-evident evidence locker on Ethereum and IPFS, with every custody transfer on an append-only audit trail.</p></div>
       </li>
-      <li data-icon="tree" data-tag="Side project">
+      <li data-icon="tree" data-tag="Side project" data-name="Merkle Seal">
         <div class="when">Side project, Sep 2026</div>
         <div><h3>Merkle Seal</h3><p>A browser tool that seals a set of files under one Merkle root and tells you exactly which file changed.</p></div>
       </li>
-      <li data-icon="flag" data-tag="Next">
+      <li data-icon="flag" data-tag="Next stop" data-name="A software engineering role">
         <div class="when">Graduating, 2027</div>
         <div><h3>Next stop</h3><p>Graduating, and looking for a software engineering role. If your team is hiring, this is where the road meets you.</p></div>
       </li>
     </ol>
     <div class="ride" aria-hidden="true">
-      <div class="scene"><span class="tag"></span></div>
+      <div class="scene"><span class="tag"><small></small><b></b></span></div>
       <div class="ride-card">
         <div class="ride-text"><h3></h3><div class="when"></div><p></p></div>
         <div class="rail"></div>
@@ -1259,6 +1262,7 @@ if (journey && !calm) {
     icon: li.dataset.icon,
     when: li.querySelector('.when').textContent,
     tag: li.dataset.tag,
+    name: li.dataset.name,
     title: li.querySelector('h3').textContent,
     text: li.querySelector('p').textContent
   }));
@@ -1673,10 +1677,14 @@ if (journey && !calm) {
       camera.lookAt(look);
       renderer.render(world, camera);
 
-      /* Year pill above the reached landmark, hidden in the overview. */
-      if (tagStop !== current) { tagStop = current; tag.textContent = stops[current].tag; }
+      /* Name tag above the reached landmark, hidden in the overview, and kept
+         inside the scene so a long name never runs off an edge. */
+      if (tagStop !== current) { tagStop = current; tag.firstElementChild.textContent = stops[current].tag; tag.lastElementChild.textContent = stops[current].name; }
       tmp.copy(marks[current].g.position).setY(3.9).project(camera);
-      tag.style.transform = `translate(${((tmp.x + 1) / 2 * box.clientWidth).toFixed(1)}px, ${((1 - tmp.y) / 2 * box.clientHeight).toFixed(1)}px)`;
+      const half = tag.offsetWidth / 2 + 10;
+      const tx = Math.min(box.clientWidth - half, Math.max(half, (tmp.x + 1) / 2 * box.clientWidth));
+      const ty = Math.min(box.clientHeight - 10, Math.max(tag.offsetHeight + 10, (1 - tmp.y) / 2 * box.clientHeight));
+      tag.style.transform = `translate(${tx.toFixed(1)}px, ${ty.toFixed(1)}px)`;
       tag.style.opacity = wide < 0.4 && tmp.z < 1 ? 1 : 0;
     };
 
