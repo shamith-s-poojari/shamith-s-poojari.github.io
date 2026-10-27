@@ -361,6 +361,81 @@ h2 .of{color:var(--muted); font-weight:400;}
 .grp p{color:var(--muted); line-height:1.75; max-width:44ch;}
 @media (max-width:700px){ .cols{columns:1;} }
 
+/* ---------- journey ---------- */
+/* Without script (or with reduced motion) this is a plain timeline. With it,
+   the section pins and a rider travels a road past one landmark per stop,
+   driven by scroll position rather than time. */
+.journey-lede{color:var(--muted); max-width:52ch; margin:-28px 0 40px;}
+.stops{border-top:1px solid var(--line);}
+.stops li{
+  display:grid; grid-template-columns:minmax(0,0.5fr) minmax(0,1.7fr);
+  gap:clamp(14px, 4vw, 56px);
+  padding-block:clamp(22px, 3vw, 30px); border-bottom:1px solid var(--line);
+}
+.stops .when{font-size:0.875rem; color:var(--accent); font-weight:500;}
+.stops h3{font-size:1.0625rem; font-weight:600; letter-spacing:-0.012em; margin-bottom:6px;}
+.stops p{color:var(--muted); max-width:62ch;}
+@media (max-width:760px){ .stops li{grid-template-columns:1fr; gap:6px;} }
+
+.ride{display:none;}
+section.journey.rolling{padding-block:0; height:calc(var(--stops, 7) * 70vh + 100vh);}
+.journey.rolling .stops{
+  position:absolute; width:1px; height:1px; overflow:hidden;
+  clip:rect(0 0 0 0); clip-path:inset(50%); white-space:nowrap;
+}
+.journey.rolling .ride{
+  display:grid; grid-template-rows:auto minmax(0,1fr) auto;
+  position:sticky; top:68px; height:calc(100svh - 68px);
+  padding-block:clamp(20px, 4vh, 44px) clamp(16px, 3vh, 32px);
+}
+.journey.rolling .ride-head h2{margin-bottom:10px;}
+.journey.rolling .journey-lede{margin:0 0 clamp(12px, 2vh, 24px);}
+.scene{
+  position:relative; min-height:0;
+  border:1px solid var(--line-soft); border-radius:var(--r-lg);
+  background:var(--bg-lift); overflow:hidden;
+}
+.scene svg{position:absolute; inset:0; width:100%; height:100%; display:block;}
+.scene .far{fill:#171615;}
+.scene .near{fill:#1d1c1b;}
+.scene .star{fill:#57534e;}
+.scene .moon{fill:#2a2826;}
+.scene .road{fill:none; stroke:#2b2927; stroke-width:24; stroke-linecap:round;}
+.scene .lane{fill:none; stroke:#45413d; stroke-width:2; stroke-dasharray:10 14;}
+.scene .trail{fill:none; stroke:var(--accent); stroke-width:3.5; stroke-linecap:round;}
+.scene .mark-ico{fill:none; stroke:#57534e; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; transition:stroke .4s ease;}
+.scene .post{fill:#3a3734; transition:fill .4s ease;}
+.scene .lit .mark-ico{stroke:var(--accent);}
+.scene .lit .post{fill:var(--accent);}
+.scene .bike{fill:none; stroke:var(--text); stroke-width:3; stroke-linecap:round; stroke-linejoin:round;}
+.scene .bike .rider{stroke:var(--accent);}
+.scene .bike .head{fill:var(--accent); stroke:none;}
+
+.ride-card{
+  display:flex; align-items:flex-end; justify-content:space-between; gap:24px;
+  padding-top:clamp(14px, 2.4vh, 24px); min-height:clamp(120px, 19vh, 150px);
+}
+.ride-text{max-width:60ch; transition:opacity .22s ease, transform .22s ease;}
+.ride-text.swap{opacity:0; transform:translateY(6px);}
+.ride-text h3{font-size:clamp(1.15rem, 2.2vw, 1.5rem); font-weight:600; letter-spacing:-0.022em; line-height:1.2;}
+.ride-text .when{font-size:0.875rem; font-weight:500; color:var(--accent); margin:2px 0 6px;}
+.ride-text p{color:var(--muted); font-size:0.9875rem; line-height:1.6;}
+.rail{display:flex; gap:6px; flex:none; padding-bottom:6px;}
+.rail button{
+  width:26px; height:26px; padding:0; border:0; background:none; cursor:pointer;
+  display:grid; place-items:center;
+}
+.rail button::before{
+  content:""; width:8px; height:8px; border-radius:99px;
+  background:#3a3734; transition:background-color .3s ease, width .3s cubic-bezier(.16,1,.3,1);
+}
+.rail button[aria-current="true"]::before{background:var(--accent); width:20px;}
+.rail button.past::before{background:#8a4a33;}
+@media (max-width:640px){
+  .ride-card{flex-direction:column-reverse; align-items:flex-start; gap:8px; min-height:190px;}
+  .ride-text p{font-size:0.9375rem;}
+}
+
 /* ---------- contact ---------- */
 .reach-lede{color:var(--muted); max-width:52ch; margin:-24px 0 36px;}
 .reach{border-top:1px solid var(--line);}
@@ -529,6 +604,7 @@ dialog.resume::backdrop{background:rgba(6,6,7,0.8);}
     <nav class="nav-links" aria-label="Sections">
       <a href="#work">Work</a>
       <a href="#experience">Experience</a>
+      <a href="#journey">Journey</a>
       <a href="#skills">Skills</a>
       <a href="#contact">Contact</a>
     </nav>
@@ -702,6 +778,58 @@ dialog.resume::backdrop{background:rgba(6,6,7,0.8);}
     <hr class="rule">
   </section>
 
+  <section id="journey" class="journey shell" aria-labelledby="journey-h">
+    <div class="ride-head">
+      <h2 id="journey-h">The Road So Far</h2>
+      <p class="journey-lede">Go through my journey, one stop at a time. Keep scrolling to ride along.</p>
+    </div>
+    <ol class="stops">
+      <li data-icon="school">
+        <div class="when">2021, Moodbidri</div>
+        <div><h3>Rotary Central School</h3><p>Where it started. Finished Class X with 76.4%.</p></div>
+      </li>
+      <li data-icon="book">
+        <div class="when">2021 to 2023, Moodbidri</div>
+        <div><h3>Rotary PU College</h3><p>Senior secondary in Physics, Chemistry, Mathematics and Computer Science, finishing Class XII with 89.83%.</p></div>
+      </li>
+      <li data-icon="campus">
+        <div class="when">2023, Moodbidri</div>
+        <div><h3>Started at MITE</h3><p>Began a B.E. in Computer Science and Engineering at Mangalore Institute of Technology and Engineering, specializing in IoT, cybersecurity, and blockchain.</p></div>
+      </li>
+      <li data-icon="badge">
+        <div class="when">2025 to 2026</div>
+        <div><h3>Certifications and workshops</h3><p>NPTEL courses in Real-Time Operating Systems and in Internet Crimes and Cyber Security, the UiPath RPA Developer Foundation, and workshops in IoT prototyping and ethical hacking.</p></div>
+      </li>
+      <li data-icon="office">
+        <div class="when">Jan 2026, Mysuru</div>
+        <div><h3>Internship at Ankyah Nexus</h3><p>Joined the product team as a software development intern and shipped 8 features across 6 two-week sprints, every change through pull-request review.</p></div>
+      </li>
+      <li data-icon="screen">
+        <div class="when">Apr 2026</div>
+        <div><h3>Onboarding platform shipped</h3><p>Took a three hour onboarding process per cohort down to under 45 minutes, across more than 120 candidate records.</p></div>
+      </li>
+      <li data-icon="chain">
+        <div class="when">Apr 2026, in progress</div>
+        <div><h3>Chain of Custody</h3><p>My final year project: a tamper-evident evidence locker on Ethereum and IPFS, with every custody transfer on an append-only audit trail.</p></div>
+      </li>
+      <li data-icon="tree">
+        <div class="when">Sep 2026</div>
+        <div><h3>Merkle Seal</h3><p>A browser tool that seals a set of files under one Merkle root and tells you exactly which file changed.</p></div>
+      </li>
+      <li data-icon="flag">
+        <div class="when">2027</div>
+        <div><h3>Next stop</h3><p>Graduating, and looking for a software engineering role. If your team is hiring, this is where the road meets you.</p></div>
+      </li>
+    </ol>
+    <div class="ride" aria-hidden="true">
+      <div class="scene"><svg></svg></div>
+      <div class="ride-card">
+        <div class="ride-text"><h3></h3><div class="when"></div><p></p></div>
+        <div class="rail"></div>
+      </div>
+    </div>
+  </section>
+
   <section id="skills" class="shell">
     <h2>What I work with</h2>
     <div class="cols">
@@ -777,6 +905,7 @@ dialog.resume::backdrop{background:rgba(6,6,7,0.8);}
     <a class="menu-row" href="#top"><span class="lbl"><span>Top</span></span><span class="say">Back to the start</span></a>
     <a class="menu-row" href="#work"><span class="lbl"><span>Work</span></span><span class="say">The projects, and what they do</span></a>
     <a class="menu-row" href="#experience"><span class="lbl"><span>Experience</span></span><span class="say">Internship and education</span></a>
+    <a class="menu-row" href="#journey"><span class="lbl"><span>Journey</span></span><span class="say">The road so far, stop by stop</span></a>
     <a class="menu-row" href="#skills"><span class="lbl"><span>Skills</span></span><span class="say">Languages, stacks and tools</span></a>
     <a class="menu-row" href="#contact"><span class="lbl"><span>Contact</span></span><span class="say">Email, phone and LinkedIn</span></a>
     <a class="menu-row" href="Shamith-Poojari-Resume.pdf" target="_blank" rel="noopener"><span class="lbl"><span>Resume</span></span><span class="say">Opens the PDF</span></a>
@@ -901,6 +1030,169 @@ if (menu && typeof menu.showModal === 'function') {
   menu.querySelectorAll('.menu-row').forEach((a) => {
     a.addEventListener('click', () => { if (a.target !== '_blank') shut(); });
   });
+}
+
+/* The Road So Far. Scroll position is the only clock: the rider moves when the
+   visitor scrolls and stops when they stop, so there is nothing to pause or
+   miss. The ordered list stays in the DOM as the accessible version. */
+const journey = document.getElementById('journey');
+const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (journey && !calm) {
+  const NS = 'http://www.w3.org/2000/svg';
+  const el = (tag, attrs = {}, parent) => {
+    const n = document.createElementNS(NS, tag);
+    for (const k in attrs) n.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(n);
+    return n;
+  };
+  const stops = [...journey.querySelectorAll('.stops li')].map(li => ({
+    icon: li.dataset.icon,
+    when: li.querySelector('.when').textContent,
+    title: li.querySelector('h3').textContent,
+    text: li.querySelector('p').textContent
+  }));
+  const ride = journey.querySelector('.ride');
+  ride.prepend(journey.querySelector('.ride-head'));
+  journey.style.setProperty('--stops', stops.length);
+  journey.classList.add('rolling');
+
+  /* Landmarks, drawn with their base at 0,0. */
+  const ICONS = {
+    school: 'M-34 0H34M-28 0V-38H28V0M-34-38 0-60 34-38M0-60V-72H14V-66H0M-6 0V-18H6V0M-20-30H-10V-20H-20ZM10-30H20V-20H10Z',
+    book:   'M0-58V-8M0-58C-12-66-28-66-38-60V-10C-28-16-12-16 0-8 12-16 28-16 38-10V-60C28-66 12-66 0-58M-28-48H-10M-28-38H-10M10-48H28M10-38H28',
+    campus: 'M-38 0H38M-32 0V-36H32V0M-38-36 0-62 38-36ZM-20-6V-30M-7-6V-30M7-6V-30M20-6V-30',
+    badge:  'M-30-66H30V-24H-30ZM-20-54H20M-20-44H6M10-12 6 2 14-4 22 2 18-12',
+    office: 'M-22 0V-74H22V0M-34 0H34M-12-62H-6M6-62H12M-12-48H-6M6-48H12M-12-34H-6M6-34H12M-5 0V-16H5V0',
+    screen: 'M-36-70H36V-22H-36ZM0-22V-6M-16-2H16M-24-30V-38M-12-30V-50M0-30V-44M12-30V-60M24-30V-54',
+    chain:  'M-40-46H-18V-24H-40ZM-11-46H11V-24H-11ZM18-46H40V-24H18ZM-18-35H-11M11-35H18M0-24V0',
+    tree:   'M0-62-18-38M0-62 18-38M-18-38-28-12M-18-38-8-12M18-38 8-12M18-38 28-12M0-62V-66',
+    flag:   'M-10 2V-74M-10-72H28L18-58 28-44H-10M-26 2H8'
+  };
+  const NODES = { tree: [[0,-62],[-18,-38],[18,-38],[-28,-12],[-8,-12],[8,-12],[28,-12]], badge: [[14,-20]] };
+
+  const svg = journey.querySelector('.scene svg');
+  const TOP = 170, H = 430, WORLD = 3000;
+  const sky = el('g', {}, svg), farG = el('g', {}, svg), nearG = el('g', {}, svg), world = el('g', {}, svg);
+
+  /* Hills are summed sines, so they are irregular without being random per load. */
+  const hills = (base, amp, seed, width) => {
+    let d = `M0 ${TOP + H}L0 ${base}`;
+    for (let x = 0; x <= width; x += 20) {
+      const y = base - amp * (0.55 * Math.sin(x / 260 + seed) + 0.3 * Math.sin(x / 113 + seed * 2.1) + 0.15 * Math.sin(x / 47 + seed * 3.7));
+      d += `L${x} ${y.toFixed(1)}`;
+    }
+    return d + `L${width} ${TOP + H}Z`;
+  };
+  el('path', { class: 'far', d: hills(330, 46, 1.3, WORLD) }, farG);
+  el('path', { class: 'near', d: hills(392, 30, 4.2, WORLD) }, nearG);
+  let s = 7;
+  const rnd = () => (s = (s * 9301 + 49297) % 233280) / 233280;
+  for (let i = 0; i < 70; i++) el('circle', { class: 'star', cx: (rnd() * WORLD).toFixed(0), cy: (TOP + 8 + rnd() * 130).toFixed(0), r: (0.8 + rnd() * 1.4).toFixed(1) }, sky);
+  const moon = el('circle', { class: 'moon', r: 22, cy: TOP + 52 }, svg);
+  svg.insertBefore(moon, farG);
+
+  const ROAD = 'M80 478C300 478 360 412 560 412S820 478 1000 470 1300 398 1500 404 1800 478 2000 470 2300 402 2500 410 2820 466 2940 462';
+  el('path', { class: 'road', d: ROAD }, world);
+  el('path', { class: 'lane', d: ROAD }, world);
+  const trail = el('path', { class: 'trail', d: ROAD }, world);
+  const total = trail.getTotalLength();
+  trail.style.strokeDasharray = total;
+
+  const at = (i) => total * (0.03 + 0.94 * i / (stops.length - 1));
+  const marks = stops.map((st, i) => {
+    const p = trail.getPointAtLength(at(i));
+    /* Set back from the road and a little ahead, so the rider pulls up beside
+       the landmark rather than parking on top of it. */
+    const g = el('g', {}, world);
+    const ico = el('g', { transform: `translate(${(p.x + 58).toFixed(1)} ${(p.y - 34).toFixed(1)})` }, g);
+    el('path', { class: 'mark-ico', d: ICONS[st.icon] }, ico);
+    (NODES[st.icon] || []).forEach(([x, y]) => el('circle', { class: 'mark-ico', cx: x, cy: y, r: st.icon === 'badge' ? 9 : 4 }, ico));
+    el('circle', { class: 'post', cx: p.x.toFixed(1), cy: p.y.toFixed(1), r: 5 }, g);
+    return g;
+  });
+
+  /* Rider, facing right, wheels on the road at 0,0. */
+  const bike = el('g', { class: 'bike' }, world);
+  const wheels = [-15, 15].map(x => {
+    const w = el('g', { transform: `translate(${x} -11)` }, bike);
+    el('circle', { r: 11 }, w);
+    el('path', { d: 'M-11 0H11M0-11V11', 'stroke-width': 1.4 }, w);
+    return w;
+  });
+  el('path', { d: 'M-15-11-4-27 0-11Z M-4-27H-10M0-11 12-27M10-31 15-11M12-27H17' }, bike);
+  el('path', { class: 'rider', d: 'M-4-30 6-48M6-48 14-30M-4-30 0-11' }, bike);
+  el('circle', { class: 'head', cx: 9, cy: -56, r: 6 }, bike);
+
+  const card = journey.querySelector('.ride-text');
+  const rail = journey.querySelector('.rail');
+  const dots = stops.map((st, i) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.tabIndex = -1;
+    b.addEventListener('click', () => {
+      const span = journey.offsetHeight - innerHeight;
+      window.scrollTo({ top: journey.offsetTop + span * i / (stops.length - 1) + 1 });
+    });
+    rail.appendChild(b);
+    return b;
+  });
+
+  let W = 1000, current = -1, ticking = false;
+  const size = () => {
+    const r = svg.getBoundingClientRect();
+    W = r.height ? H * r.width / r.height : 1000;
+    moon.setAttribute('cx', (W * 0.8).toFixed(0));
+  };
+  const show = (i) => {
+    if (i === current) return;
+    const first = current < 0;
+    current = i;
+    marks.forEach((m, k) => m.classList.toggle('lit', k <= i));
+    dots.forEach((d, k) => {
+      d.classList.toggle('past', k < i);
+      if (k === i) d.setAttribute('aria-current', 'true');
+      else d.removeAttribute('aria-current');
+    });
+    const fill = () => {
+      card.querySelector('h3').textContent = stops[i].title;
+      card.querySelector('.when').textContent = stops[i].when;
+      card.querySelector('p').textContent = stops[i].text;
+      card.classList.remove('swap');
+    };
+    if (first) return fill();
+    card.classList.add('swap');
+    setTimeout(fill, 200);
+  };
+  const frame = () => {
+    ticking = false;
+    const span = journey.offsetHeight - innerHeight;
+    const raw = Math.min(1, Math.max(0, -journey.getBoundingClientRect().top / span));
+    /* Each leg holds at its stop for the first and last quarter, so the rider
+       pauses at a landmark instead of gliding past it. */
+    const legs = stops.length - 1;
+    const leg = Math.min(legs - 1, Math.floor(raw * legs));
+    const t = Math.min(1, Math.max(0, (raw * legs - leg - 0.25) / 0.5));
+    const ease = t * t * (3 - 2 * t);
+    const len = at(leg) + (at(leg + 1) - at(leg)) * ease;
+    const p = trail.getPointAtLength(len);
+    const q = trail.getPointAtLength(Math.min(total, len + 2));
+    const ang = Math.atan2(q.y - p.y, q.x - p.x) * 180 / Math.PI;
+    bike.setAttribute('transform', `translate(${p.x.toFixed(1)} ${p.y.toFixed(1)}) rotate(${ang.toFixed(1)}) scale(1.3)`);
+    wheels.forEach((w, k) => w.setAttribute('transform', `translate(${k ? 15 : -15} -11) rotate(${(len / 11 * 57.3 % 360).toFixed(1)})`));
+    trail.style.strokeDashoffset = total - len;
+    const camX = Math.min(WORLD - W, Math.max(0, p.x - W * 0.42));
+    svg.setAttribute('viewBox', `${camX.toFixed(1)} ${TOP} ${W.toFixed(1)} ${H}`);
+    farG.setAttribute('transform', `translate(${(camX * 0.55).toFixed(1)} 0)`);
+    nearG.setAttribute('transform', `translate(${(camX * 0.25).toFixed(1)} 0)`);
+    sky.setAttribute('transform', `translate(${(camX * 0.9).toFixed(1)} 0)`);
+    moon.setAttribute('transform', `translate(${camX.toFixed(1)} 0)`);
+    show(leg + (ease >= 0.5 ? 1 : 0));
+  };
+  const queue = () => { if (!ticking) { ticking = true; requestAnimationFrame(frame); } };
+  size();
+  frame();
+  addEventListener('scroll', queue, { passive: true });
+  addEventListener('resize', () => { size(); queue(); });
 }
 
 if (scripted) {
