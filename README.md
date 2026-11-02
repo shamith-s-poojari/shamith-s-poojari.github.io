@@ -2,42 +2,38 @@
 
 My portfolio, live at <https://shamith-s-poojari.github.io>
 
-One self-contained HTML page. No build step, no framework, nothing to install:
-`index.html` carries its own CSS and JavaScript, and the portrait is embedded in
-the file itself.
+A static page with no build step: `index.html`, `css/`, `js/`, and the libraries
+vendored in `vendor/` (three.js, GSAP with ScrollTrigger, Lenis). Serve the folder
+with any static server; ES modules will not load straight from the filesystem.
 
 ## Files
 
-| File | Purpose |
+| Path | Purpose |
 |---|---|
-| `index.html` | the entire site |
-| `Shamith-Poojari-Resume.pdf` | served alongside, opened in an in-page viewer |
-| `og-image.jpg` | link preview image for shared links |
+| `index.html` | all of the content, complete without JavaScript |
+| `js/avatar.js` | the 3D scene behind the page, driven by scroll position |
+| `js/stack.js` | the tech stack balls, with hand-written physics |
+| `js/main.js` | loader, smooth scroll, reveals, pinned work section, cursor |
+| `img/character.svg` | a flat drawing of the character, for when WebGL is unavailable |
+| `img/shamith.webp`, `img/depth.png` | the earlier photo head, no longer used by the page |
+| `tools/bake-portrait.mjs` | regenerates the photo head from the source photos (needs `sharp`) |
 
 ## Implementation notes
 
-**Motion.** anime.js v4, loaded from a CDN as an ES module. There is one authored
-moment: the hero name splits into characters that rise from behind a per-word
-mask, so wrapping and descenders survive. Everything below the fold is
-deliberately quiet, one restrained arrival triggered once by IntersectionObserver.
+**The character is modelled in code.** The head, hair, sweater, trousers and mug are
+all three.js geometry in `js/avatar.js`, with no image behind them. Arms are aimed by
+a small two-bone solver, so a hand can be told to hold the mug or rest on the keyboard
+and the elbow works itself out. The head turns toward the cursor, and the eyes blink.
 
-**Failure is designed for.** Content is visible by default. Entrance states are
-applied by script and withdrawn again if the library fails to load, if the tab is
-backgrounded (where `requestAnimationFrame` is frozen, so nothing could animate
-anyway), or if the visitor prefers reduced motion. A broken script never leaves
-the page blank.
+**One scene, many stages.** The stages (hero, about, at the desk, contact) are plain
+values keyed to scroll positions. Each frame works out where the scene should be
+and eases toward it, so scrolling, jumping to an anchor and resizing cannot put
+timelines in conflict.
 
-**Resume viewer.** Opens in a native `<dialog>` on desktop. On narrow screens it
-falls through to a plain link, because an iframed PDF is unreliable on mobile and
-the OS viewer is better there. The links stay real `<a href>` elements, so
-middle-click, "save link as", and a visitor with JavaScript disabled all still
-get the file.
+**Failure is designed for.** Content is visible by default and entrance states are
+only applied by script. Without WebGL the hero falls back to a flat drawing of the character.
+Reduced motion gets no loader, no smooth scroll and a still scene.
 
-**Type and colour.** Geist throughout, one accent colour, and every text and
-background pair meets WCAG AA. Browser surfaces are themed too: selection, caret,
-scrollbar, and focus rings.
-
-## Running it locally
-
-Open `index.html` in a browser. It works straight from the filesystem, since the
-CDN it uses sends permissive CORS headers.
+**Credit.** The kind of motion here is inspired by
+[Moncy Yohannan's portfolio](https://github.com/MoncyDev/Portfolio-Website). None of
+its code or assets are used; its license does not allow that.
