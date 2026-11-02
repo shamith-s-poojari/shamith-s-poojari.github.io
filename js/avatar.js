@@ -206,7 +206,7 @@ function buildMug() {
   mug.add(handle);
   // The steam is one soft S, which wavers in pose().
   const curl = new Strands();
-  curl.add([[0.02, 0.3, 0], [0.09, 0.42, 0], [-0.05, 0.56, 0], [0.05, 0.7, 0], [-0.03, 0.84, 0]].map((q) => new Vector3(...q)), 0.045, { radial: 8, segs: 28 });
+  curl.add([[0.04, 0.28, 0], [0.13, 0.4, 0], [-0.1, 0.56, 0], [0.11, 0.72, 0], [-0.04, 0.88, 0]].map((q) => new Vector3(...q)), 0.055, { radial: 8, segs: 32 });
   const steam = new THREE.Mesh(curl.geometry(), new THREE.MeshBasicMaterial({ color: 0xfff8ee, transparent: true, opacity: 0.92 }));
   mug.add(steam);
   return { mug, steam };
@@ -227,7 +227,7 @@ function buildCharacter() {
   root.add(spine);
 
   // The sweater: a wide, soft lathe, flattened front to back.
-  const profile = [[0, -0.08], [0.72, -0.08], [0.86, 0.04], [0.93, 0.5], [0.9, 1.05], [0.76, 1.55], [0.46, 1.92], [0.2, 2.03], [0, 2.04]]
+  const profile = [[0, -0.2], [0.72, -0.2], [0.86, -0.08], [0.93, 0.5], [0.9, 1.05], [0.76, 1.55], [0.46, 1.92], [0.2, 2.03], [0, 2.04]]
     .map(([x, y]) => new THREE.Vector2(x, y));
   const torsoCurve = new THREE.SplineCurve(profile);
   const torso = new THREE.Mesh(new THREE.LatheGeometry(torsoCurve.getPoints(48), 48), knit);
@@ -237,9 +237,10 @@ function buildCharacter() {
   const hem = new THREE.Mesh(new THREE.TorusGeometry(0.8, 0.075, 12, 48), rib);
   hem.rotation.x = Math.PI / 2;
   hem.scale.y = 0.78;
+  hem.position.y = -0.16;
   spine.add(hem);
 
-  const hips = ball(cloth, 0.72, [1, 0.5, 0.72], [0, -0.04, 0], root);
+  const hips = ball(cloth, 0.72, [1, 0.4, 0.5], [0, -0.04, 0], root);
   hips.castShadow = true;
 
   // Neck and collar, with the head above them on its own pivot.
@@ -455,8 +456,8 @@ export function createAvatar(canvas, { reduced = false } = {}) {
     const aspect = W / H, narrow = W < 820;
     const wide = clamp(aspect / 1.6, 0.6, 1.5);
     const hero = narrow
-      ? { x: 0, y: 4.8, dist: 20, rot: 0, seat: 0, furn: 0, alpha: 1 }
-      : { x: 0, y: 3.05, dist: 14.5, rot: 0, seat: 0, furn: 0, alpha: 1 };
+      ? { x: 0, y: 5.55, dist: 23.5, rot: 0, seat: 0, furn: 0, alpha: 1 }
+      : { x: 0, y: 3.2, dist: 15.5, rot: 0, seat: 0, furn: 0, alpha: 1 };
     const about = narrow
       ? { x: 0, y: 3.2, dist: 13, rot: 0.15, seat: 0, furn: 0, alpha: 0.3 }
       : { x: 2.4 * wide, y: 3.1, dist: 15, rot: 0.2, seat: 0, furn: 0, alpha: 1 };
@@ -560,7 +561,7 @@ export function createAvatar(canvas, { reduced = false } = {}) {
     const held = clamp(1 - seat * 2.5);
     c.mug.visible = held > 0.01;
     c.mug.scale.setScalar(Math.max(held, 0.001));
-    c.steam.rotation.y = time * 0.6;
+    c.steam.rotation.z = Math.sin(time * 0.9) * 0.05;
     c.steam.scale.x = 1 + Math.sin(time * 1.7) * 0.18;
     c.steam.material.opacity = 0.72 + Math.sin(time * 1.1) * 0.2;
     for (const l of c.legs) {
