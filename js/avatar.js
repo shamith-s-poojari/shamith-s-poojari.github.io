@@ -240,7 +240,7 @@ function buildCharacter() {
   hem.position.y = -0.16;
   spine.add(hem);
 
-  const hips = ball(cloth, 0.72, [1, 0.4, 0.5], [0, -0.04, 0], root);
+  const hips = ball(cloth, 0.72, [1, 0.2, 0.5], [0, -0.04, 0], root);
   hips.castShadow = true;
 
   // Neck and collar, with the head above them on its own pivot.
