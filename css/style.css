@@ -51,7 +51,7 @@ main { position: relative; z-index: 1; }
   background: linear-gradient(to bottom, rgba(11, 10, 16, 0.92), rgba(11, 10, 16, 0));
 }
 .mark { font-weight: 700; letter-spacing: 0.04em; }
-.nav-mail { color: var(--text); opacity: 0.85; }
+.nav-title { color: var(--text); opacity: 0.85; }
 .nav-links { justify-self: end; display: flex; gap: clamp(18px, 3vw, 40px); }
 .nav-links a { font-size: 13px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; }
 .nav a:hover { opacity: 0.65; }
@@ -271,7 +271,7 @@ main { position: relative; z-index: 1; }
 
 @media (max-width: 819px) {
   .nav { grid-template-columns: auto 1fr; padding-top: 18px; padding-bottom: 18px; }
-  .nav-mail { display: none; }
+  .nav-title { display: none; }
   .rail { display: none; }
   .resume-pin { bottom: 16px; right: 16px; }
   .hero { grid-template-columns: 1fr; align-content: start; gap: 18px; padding-top: 86px; }
