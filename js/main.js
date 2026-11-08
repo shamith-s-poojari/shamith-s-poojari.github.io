@@ -123,6 +123,34 @@ if (!reduced) {
   });
 }
 
+// Resume: read it in place. The links still point at the PDF, so without this
+// (or without <dialog>) they simply open it in a new tab.
+const cv = $('.cv');
+if (cv && typeof cv.showModal === 'function') {
+  const page = $('.cv-page', cv);
+  const pdf = 'Shamith-Poojari-Resume.pdf';
+  const fill = () => {
+    if (page.firstChild) return;
+    // Phones mostly cannot draw a PDF inside a page, so they get a picture of it.
+    if (navigator.pdfViewerEnabled) {
+      page.innerHTML = `<iframe src="${pdf}#view=FitH" title="Shamith S Poojari's resume"></iframe>`;
+    } else {
+      page.innerHTML = `<img src="img/resume.png" width="2000" height="2828" alt="Shamith S Poojari's resume">`;
+    }
+  };
+  const open = (e) => {
+    e.preventDefault();
+    fill();
+    lenis?.stop();
+    cv.showModal();
+  };
+  $$('[data-cv-open]').forEach((a) => a.addEventListener('click', open));
+  $('.cv-close', cv).addEventListener('click', () => cv.close());
+  // A click on the dimmed backdrop lands on the dialog itself.
+  cv.addEventListener('click', (e) => { if (e.target === cv) cv.close(); });
+  cv.addEventListener('close', () => lenis?.start());
+}
+
 // What I do: one open at a time, on hover where there is hover.
 const cards = $$('.card');
 const openCard = (card) => cards.forEach((c) => {
@@ -180,7 +208,7 @@ function entrance() {
   avatar?.play();
   if (reduced) return;
   gsap.from('.hero-left > *, .hero-right > *', { y: 44, opacity: 0, duration: 1.1, stagger: 0.09, ease: 'power3.out', delay: 0.25 });
-  gsap.from('.nav > *, .rail, .resume-pin', { opacity: 0, duration: 1, delay: 0.7 });
+  gsap.from('.nav > *, .rail', { opacity: 0, duration: 1, delay: 0.7 });
 }
 
 async function runLoader() {

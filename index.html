@@ -86,6 +86,7 @@
     <a href="#about">About</a>
     <a href="#work">Work</a>
     <a href="#contact">Contact</a>
+    <a class="nav-cv" href="Shamith-Poojari-Resume.pdf" target="_blank" rel="noopener" data-cv-open>Resume</a>
   </nav>
 </header>
 
@@ -97,7 +98,6 @@
     <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.23 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
   </a>
 </div>
-<a class="resume-pin" href="Shamith-Poojari-Resume.pdf" target="_blank" rel="noopener">Resume <span aria-hidden="true">↗</span></a>
 
 <main id="main">
 
@@ -106,6 +106,16 @@
     <div class="hero-left">
       <p class="hello">Hello! I'm</p>
       <h1 class="name"><span>Shamith</span> <span>S Poojari</span></h1>
+      <div class="cv-actions">
+        <a class="btn btn-solid" href="Shamith-Poojari-Resume.pdf" target="_blank" rel="noopener" data-cv-open>
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+          View resume
+        </a>
+        <a class="btn btn-line" href="Shamith-Poojari-Resume.pdf" download="Shamith-Poojari-Resume.pdf">
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 20h16"/></svg>
+          Download PDF
+        </a>
+      </div>
     </div>
     <div class="hero-right">
       <p class="hello">A full-stack developer into</p>
@@ -289,6 +299,7 @@
         <li data-rise><a href="tel:+918660983639"><span>Phone</span>+91 86609 83639</a></li>
         <li data-rise><a href="https://www.linkedin.com/in/shamith-s-poojari" target="_blank" rel="noopener"><span>LinkedIn</span>shamith-s-poojari</a></li>
         <li data-rise><a href="https://github.com/shamith-s-poojari" target="_blank" rel="noopener"><span>GitHub</span>shamith-s-poojari</a></li>
+        <li data-rise><a href="Shamith-Poojari-Resume.pdf" target="_blank" rel="noopener" data-cv-open><span>Resume</span>View or download</a></li>
       </ul>
     </div>
     <footer class="foot">
@@ -298,5 +309,24 @@
   </section>
 
 </main>
+
+<!-- The resume, read in place. Browsers with a PDF viewer get the PDF itself;
+     phones, which mostly cannot show a PDF inside a page, get an image of it. -->
+<dialog class="cv" aria-labelledby="cv-title">
+  <div class="cv-bar">
+    <h2 id="cv-title">Resume</h2>
+    <div class="cv-tools">
+      <a class="btn btn-solid btn-sm" href="Shamith-Poojari-Resume.pdf" download="Shamith-Poojari-Resume.pdf">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 20h16"/></svg>
+        Download
+      </a>
+      <a class="btn btn-line btn-sm cv-newtab" href="Shamith-Poojari-Resume.pdf" target="_blank" rel="noopener">Open in new tab <span aria-hidden="true">↗</span></a>
+      <button type="button" class="cv-close" aria-label="Close resume">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="cv-page" data-lenis-prevent></div>
+</dialog>
 </body>
 </html>

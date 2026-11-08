@@ -55,14 +55,23 @@ main { position: relative; z-index: 1; }
 .nav-links { justify-self: end; display: flex; gap: clamp(18px, 3vw, 40px); }
 .nav-links a { font-size: 13px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; }
 .nav a:hover { opacity: 0.65; }
+.nav-links .nav-cv { margin: -7px 0; padding: 7px 14px; border: 1px solid var(--accent); border-radius: 99px; color: var(--accent-hi); }
+.nav-links .nav-cv:hover { opacity: 1; background: var(--accent); color: #0b0a10; }
 
 .rail { position: fixed; left: clamp(14px, 2.2vw, 34px); bottom: 30px; z-index: 20; display: flex; flex-direction: column; gap: 18px; color: var(--muted); }
 .rail a:hover { color: var(--text); }
-.resume-pin {
-  position: fixed; right: clamp(16px, 2.6vw, 40px); bottom: 28px; z-index: 20;
-  font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted);
+
+.btn {
+  display: inline-flex; align-items: center; gap: 9px; padding: 13px 22px; border-radius: 99px;
+  font-size: 15px; font-weight: 500; line-height: 1; white-space: nowrap;
+  transition: background 0.25s, color 0.25s, border-color 0.25s, transform 0.4s var(--pop);
 }
-.resume-pin:hover { color: var(--text); }
+.btn:hover { transform: translateY(-2px); }
+.btn-solid { background: var(--accent); color: #0b0a10; border: 1px solid var(--accent); }
+.btn-solid:hover { background: var(--accent-hi); border-color: var(--accent-hi); }
+.btn-line { border: 1px solid rgba(196, 181, 253, 0.45); color: var(--text); background: rgba(11, 10, 16, 0.45); }
+.btn-line:hover { border-color: var(--accent-hi); color: var(--accent-hi); }
+.btn-sm { padding: 9px 15px; font-size: 13.5px; gap: 7px; }
 
 .cursor {
   position: fixed; left: 0; top: 0; z-index: 90; width: 20px; height: 20px; margin: -10px 0 0 -10px;
@@ -98,6 +107,29 @@ main { position: relative; z-index: 1; }
 .hello { color: var(--accent-hi); font-size: clamp(16px, 1.5vw, 22px); font-weight: 400; margin-bottom: 10px; }
 .name { font-size: clamp(40px, 4.6vw, 76px); line-height: 0.98; font-weight: 500; letter-spacing: 0.005em; text-transform: uppercase; }
 .name span { display: block; }
+.cv-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: clamp(24px, 3.4vh, 36px); }
+
+/* Resume viewer */
+.cv {
+  width: min(920px, calc(100vw - 32px)); height: calc(100svh - 48px); max-width: none; max-height: none;
+  margin: auto; padding: 0; border: 1px solid var(--line); border-radius: 18px; overflow: hidden;
+  background: var(--bg-lift); color: var(--text);
+  flex-direction: column;
+}
+.cv[open] { display: flex; animation: cv-in 0.45s var(--pop); }
+.cv::backdrop { background: rgba(6, 5, 10, 0.72); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+@keyframes cv-in { from { opacity: 0; transform: translateY(18px) scale(0.985); } }
+.cv, .cv * { cursor: auto; }
+.cv a, .cv button { cursor: pointer; }
+.cv-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 12px 12px 22px; border-bottom: 1px solid var(--line); }
+.cv-bar h2 { font-size: 13px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent-hi); }
+.cv-tools { display: flex; align-items: center; gap: 8px; }
+.cv-close { all: unset; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; color: var(--muted); transition: background 0.2s, color 0.2s; }
+.cv-close:hover { background: var(--bg-raise); color: var(--text); }
+.cv-close:focus-visible { outline: 2px solid var(--accent-hi); outline-offset: 2px; }
+.cv-page { flex: 1; min-height: 0; overflow: auto; background: #2a2533; overscroll-behavior: contain; }
+.cv-page iframe { display: block; width: 100%; height: 100%; border: 0; background: #fff; }
+.cv-page img { display: block; width: min(100%, 900px); height: auto; margin: 0 auto; background: #fff; }
 .role { position: relative; height: 2.05em; font-size: clamp(32px, 3.9vw, 62px); line-height: 1; font-weight: 500; text-transform: uppercase; letter-spacing: 0.005em; }
 .role-word {
   position: absolute; left: 0; bottom: 0; white-space: nowrap;
@@ -273,7 +305,13 @@ main { position: relative; z-index: 1; }
   .nav { grid-template-columns: auto 1fr; padding-top: 18px; padding-bottom: 18px; }
   .nav-title { display: none; }
   .rail { display: none; }
-  .resume-pin { bottom: 16px; right: 16px; }
+  .nav-links { gap: 16px; }
+  .nav-links .nav-cv { padding: 6px 11px; }
+  .cv-actions { margin-top: 18px; }
+  .btn { padding: 12px 18px; font-size: 14px; }
+  .cv { width: 100vw; height: 100svh; border: 0; border-radius: 0; }
+  .cv-bar { padding-left: 16px; }
+  .cv-newtab { display: none; }
   .hero { grid-template-columns: 1fr; align-content: start; gap: 18px; padding-top: 86px; }
   .hero-left, .hero-right { padding-top: 0; width: auto; justify-self: start; }
   .hero-right .hello { margin-bottom: 2px; }
